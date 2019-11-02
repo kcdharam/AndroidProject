@@ -13,9 +13,8 @@
         android:layout_marginStart="66dp"
         android:layout_marginLeft="66dp"
         android:ems="10"
-        android:hint="Enter End Date"
+        android:hint="Enter Date"
         android:inputType="textPersonName"
-        android:focusable="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -84,6 +83,7 @@
         android:layout_height="30dp"
         android:layout_marginStart="66dp"
         android:layout_marginLeft="66dp"
+        android:layout_marginTop="8dp"
         android:text="Start Time"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtStDate" />
@@ -97,7 +97,6 @@
         android:ems="10"
         android:hint="Enter Start Date"
         android:inputType="textPersonName"
-        android:focusable="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
@@ -113,7 +112,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
-
     <Button
         android:id="@+id/btnCreate"
         android:layout_width="wrap_content"
@@ -124,12 +122,9 @@
         android:layout_marginEnd="190dp"
         android:layout_marginRight="190dp"
         android:text="Create"
-        android:focusable="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtEndTime" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

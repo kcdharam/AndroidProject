@@ -7,15 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class DBHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "stushare.db";
-    public static final Date today = new Date();
-    public static final SimpleDateFormat format = new SimpleDateFormat("MM/dd/yy");
-    public static final String dateToday = format.format(today);
+
     public DBHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -82,7 +77,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 null,
                 null);
     }
-    public Cursor getEventCursorAct(SQLiteDatabase db){
+    public Cursor getEventCursor(SQLiteDatabase db){
         String[] projection = {
                 DBConnect.DBEntity._ID,
                 DBConnect.DBEntity.EVENT_COL_NAME_ORGID,
@@ -95,61 +90,19 @@ public class DBHelper extends SQLiteOpenHelper {
                 DBConnect.DBEntity.EVENT_COL_NAME_DETAIL
         };
 
-        return db.query(DBConnect.DBEntity.TABLE_NAME_EVENT,
-                projection,
-                "status=? ",
-                new String[] { "active" },
-                null,
-                null,
-                null);
-    }
-    public Cursor getEventCursorPst(SQLiteDatabase db,String id){
-        String[] projection = {
-                DBConnect.DBEntity._ID,
-                DBConnect.DBEntity.EVENT_COL_NAME_ORGID,
-                DBConnect.DBEntity.EVENT_COL_NAME_STATUS,
-                DBConnect.DBEntity.EVENT_COL_NAME_ST_DATE,
-                DBConnect.DBEntity.EVENT_COL_NAME_ST_TIME,
-                DBConnect.DBEntity.EVENT_COL_NAME_END_DATE,
-                DBConnect.DBEntity.EVENT_COL_NAME_END_TIME,
-                DBConnect.DBEntity.EVENT_COL_NAME_TITLE,
-                DBConnect.DBEntity.EVENT_COL_NAME_DETAIL
-        };
-        Date date=new Date();
-        return db.query(DBConnect.DBEntity.TABLE_NAME_EVENT,
-                projection,
-                "end_date<? and organizer_id=? ",
-                new String[] { dateToday ,id},
-                null,
-                null,
-                null);
-    }
 
-    public Cursor getEventCursorOwn(SQLiteDatabase db,String id){
-        String[] projection = {
-                DBConnect.DBEntity._ID,
-                DBConnect.DBEntity.EVENT_COL_NAME_ORGID,
-                DBConnect.DBEntity.EVENT_COL_NAME_STATUS,
-                DBConnect.DBEntity.EVENT_COL_NAME_ST_DATE,
-                DBConnect.DBEntity.EVENT_COL_NAME_ST_TIME,
-                DBConnect.DBEntity.EVENT_COL_NAME_END_DATE,
-                DBConnect.DBEntity.EVENT_COL_NAME_END_TIME,
-                DBConnect.DBEntity.EVENT_COL_NAME_TITLE,
-                DBConnect.DBEntity.EVENT_COL_NAME_DETAIL
-        };
-        Date date=new Date();
         return db.query(DBConnect.DBEntity.TABLE_NAME_EVENT,
                 projection,
-                "organizer_id=? ",
-                new String[] { id},
+                null,
+                null,
                 null,
                 null,
                 null);
     }
-    public void updateEventList(SQLiteDatabase db,Cursor c,String id){
+    public void updateEventList(SQLiteDatabase db){
         EventCoordinator.EVENTS.clear();
         EventCoordinator.EVENT_MAP.clear();
-
+        Cursor c = getEventCursor(db);
         while (c.moveToNext()){
             EventCoordinator.Event event=new EventCoordinator.Event(
                     c.getString(c.getColumnIndexOrThrow(DBConnect.DBEntity._ID)),
@@ -167,12 +120,11 @@ public class DBHelper extends SQLiteOpenHelper {
         c.close();
 
     }
-
     public long insertEvent(SQLiteDatabase db, EventCoordinator.Event event){
 
         ContentValues values = new ContentValues();
         values.put(DBConnect.DBEntity.EVENT_COL_NAME_ORGID, event.orgID);
-        values.put(DBConnect.DBEntity.EVENT_COL_NAME_STATUS ,event.status);
+        values.put(DBConnect.DBEntity. EVENT_COL_NAME_STATUS ,event.status);
         values.put(DBConnect.DBEntity.EVENT_COL_NAME_ST_DATE ,event.startDate);
         values.put(DBConnect.DBEntity.EVENT_COL_NAME_ST_TIME,event.startTime);
         values.put(DBConnect.DBEntity.EVENT_COL_NAME_END_DATE ,event.endDate);
